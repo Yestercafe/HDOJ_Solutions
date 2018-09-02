@@ -12,8 +12,10 @@ int main(void)
             cin >> a;
             res += a;
         }
-        cout << res << endl << endl;
+        cout << res << endl;
         res = 0;
+        if (m != 0)
+            cout << endl;
     }
     return 0;
 }

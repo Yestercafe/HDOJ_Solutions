@@ -16,7 +16,7 @@ int main(void)
 void sort(char a, char b, char c)
 {
         int x = a, y, z = a;
-        if (b < x) x = a; if (c < x) x = c;
+        if (b < x) x = b; if (c < x) x = c;
         if (b > z) z = b; if (c > z) z = c;
         y = a + b + c - x - z;
         printf("%c %c %c\n", x, y, z);

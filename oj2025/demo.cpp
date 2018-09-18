@@ -7,25 +7,16 @@ int main(void)
     using namespace std;
     ios::sync_with_stdio(false);
     string str;
-    vector<size_t> maxPos = {0};
+    char maxc;
     while (cin >> str) {
-        for (int i = 0; i < str.size(); ++i) {
-            if (str[maxPos[0]] < str[i]) {
-                maxPos.clear();
-                maxPos.push_back(i);
-            } else if (str[maxPos[0]] == str[i]) {
-                maxPos.push_back(i);
-            }
-        }
-        for (int i = 0, ii = 0; i < str.size(); ++i) {
-            cout << str[i];
-            if (i == maxPos[ii]) {
-                cout << "(max)";
-                ++ii;
-            }
+        maxc = 'a';  //讲真这行是我抄的，完全搞不懂为什么是从a开始计起的
+        for (auto c: str)
+            maxc = c > maxc ? c : maxc;
+        for (auto c: str) {
+            cout << c;
+            if (c == maxc) cout << "(max)";
         }
         cout << endl;
-        maxPos.clear();
     }
     return 0;
 }

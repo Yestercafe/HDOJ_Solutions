@@ -1,40 +1,36 @@
-#include <cstdio>
-#include <cstring>
+#include <iostream>
+#include <array>
+#include <algorithm>
+#include <iterator>
+#define BOUND 1000000
 
-int main(void)
+int main()
 {
-    char str[8];
-    int a, b;
-    int count = 0;
-    int vaild[1000000];
-    for (int i = 0; i < 1000000; ++i) {
-        sprintf(str, "%d", i);
-        for (int j = 0; str[j] != '\0'; ++j) {
-            // if (str[j] == '4') {
-            //     vaild[i] = 0;
-            //     break;
-            // }
-            // else if (str[j] == '6') {
-            //     if (str[j+1] != '\0' && str[j+1] == '2') {
-            //         vaild[i] = 0;
-            //         break;
-            //     }
-            //     else
-            //         vaild[i] = 1;
-            // }
-            if (strstr(str, "4") || strstr(str, "62"))
-                vaild[i] = 0;
-            else
-                vaild[i] = 1;
+    using namespace std;
+    ios::sync_with_stdio(false);
+
+    array<int, BOUND> arr;
+    arr[0] = 0;
+    for (int k = 1; k < BOUND; ++k) {
+        int tmp = k;
+        bool yes = true;
+        while (tmp != 0) {
+            if (tmp % 100 == 62 || tmp % 10 == 4) {
+                arr[k] = arr[k - 1] + 1;
+                yes = false;
+                break;
+            }
+            tmp /= 10;
+        }
+        if (yes) {
+            arr[k] = arr[k - 1];
         }
     }
-    while (~scanf("%d%d", &a, &b)) {
-        if (a == b && a == 0) break;
-        for (int i = a; i <= b; ++i) {
-            count += vaild[i-1];
-        }
-        printf("%d\n", count);
-        count = 0;
+
+    int lower, upper;
+    while (cin >> lower >> upper) {
+        if (lower == 0 && upper == 0) break;
+        cout << upper - lower + 1 - (arr[upper] - arr[lower - 1]) << endl;
     }
 
     return 0;

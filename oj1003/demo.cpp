@@ -1,38 +1,54 @@
 #include <iostream>
-#include <vector>
+#include <limits>
 
-int main(void) {
+int main(void)
+{
     using namespace std;
     ios::sync_with_stdio(false);
-    vector<int> vec;
-    int m;
-    cin >> m;
-    int n;
-    for (int _ = 1; _ <= m; ++_) {
+
+    int t;
+    cin >> t;
+
+    for (int k = 1; k <= t; ++k) {
+        int n;
         cin >> n;
-        while (--n >= 0) {
-            int e;
-            cin >> e;
-            vec.push_back(e);
-        }
-        int downer = 0, upper = 0, max = 0, sum;
-        for (int i = 0; i < vec.size(); ++i) {
-            sum = 0;
-            for (int j = i; j < vec.size(); ++j) {
-                sum += vec[j];
-                if (sum > max) {
-                    max = sum;
-                    downer = i;
-                    upper = j;
-                }
+
+        int maxsum = numeric_limits<int>::min(), downer = 1, upper = 1;
+        int sum = 0, max = maxsum, maxpos;
+        int recordpos = 1;
+        for (int i = 0; i < n; ++i) {
+            int c;
+            cin >> c;
+
+            if (c > max) {
+                max = c;
+                maxpos = i + 1;
+            }
+            max = max > c ? max : c;
+
+            sum += c;
+            if (sum < 0) {  // <= 0
+                sum = 0;
+                recordpos = i + 2;
+            }
+
+            if (maxsum < sum) {
+                maxsum = sum;
+                downer = recordpos;
+                upper = i + 1;
             }
         }
-        cout << "Case " << _ << ":" << endl
-             << max << " " << downer + 1 << " " << upper + 1 << endl;
-        if (_ != m) cout << endl;
-        vec.clear();
-    }
 
+        if (max <= 0) {
+            maxsum = max;
+            downer = upper = maxpos;
+        }
+
+        cout << "Case " << k << ":" << endl
+             << maxsum << " " << downer << " " << upper << endl;
+        if (k != t)
+            cout << endl;
+    }
 
     return 0;
 }

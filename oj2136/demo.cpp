@@ -1,43 +1,30 @@
-//此题要求已经达成。但是没有办法优化时间。
-//第二次修改，依然超时
-
+// 素数筛选法。在dis里看到的解法。
+// 看到别人的代码后就明白了，这是类似Eratosthenes筛法的东西
+// 如果是以后自己看到这段代码，那一定也能轻松弄懂
 #include <iostream>
+#define N 1000000
 
-int main(void)
+// 静态变量默认值为0
+int arr[N];
+
+int main()
 {
     using namespace std;
-    //ios::sync_with_stdio(false);
-    int primeList[1000000];
-    int primeCount[1000000];
+    ios::sync_with_stdio(false);
 
-    primeList[1] = 0;
-    for (int i = 2; i < 1000000; ++i) {
-        primeList[i] = 0;
-    }
-
-    for (int i = 2, c = 1; i < 1000000; ++i) {
-        if (primeList[i] == 0) {
-            for (int j = 2; i * j < 1000000; ++j) {
-                primeList[i*j] = i;
+    int count = 0;
+    for (int k = 2; k < N; ++k) {
+        if (!arr[k]) {   // 这个数是质数
+            ++count;
+            for (int i = k; i < N; i += k) {   // 这个质数的倍数的最大质因子一定是它
+                arr[i] = count;
             }
-        }
-        if (primeList[i] == 0) {
-            primeCount[i] = c;
-            primeList[i] = primeCount[i];
-            ++c;
-        } else {
-            primeList[i] = primeCount[primeList[i]];
         }
     }
 
     int n;
     while (cin >> n) {
-        if (n == 1) {
-            cout << 0 << endl;
-            continue;
-        } else {
-            cout << primeList[n] << endl;
-        }
+        cout << arr[n] << endl;
     }
 
     return 0;

@@ -1,5 +1,8 @@
+// 简单打表，具体问题详见下面的注释
 #include <iostream>
 #include <cstdint>
+#include <algorithm>
+#include <iterator>
 
 int main()
 {
@@ -12,6 +15,10 @@ int main()
         auto n = i;
         int step = 0;
         while (n != 1) {
+            if (n < i) {
+                step += lst[n];
+                break;
+            }
             if (n % 2)
                 n = 3 * n + 1;
             else
@@ -21,15 +28,20 @@ int main()
         lst[i] = step;
     }
 
-    // cout << "here" << endl;
+    // copy(begin(lst), end(lst), ostream_iterator<int>(cout, ", "));
 
     int a, b;
     while (cin >> a >> b) {
-        int max = lst[a];
+        auto max = lst[a];
+        cout << a << " " << b << " ";
+
+        // 我 vs 你八辈子祖宗
+        if (a > b) swap(a, b);
+
         for (int i = a; i <= b; ++i) {
             max = max > lst[i] ? max : lst[i];
         }
-        cout << a << " " << b << " " << max + 1 << endl;
+        cout << max + 1 << endl;
     }
 
     return 0;

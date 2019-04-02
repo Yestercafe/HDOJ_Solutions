@@ -1,10 +1,5 @@
 #include <iostream>
 
-///  a + b = s
-///  a - b = d
-///  2a = s + d
-///  s - a = b
-
 int main()
 {
     using namespace std;
@@ -19,10 +14,10 @@ int main()
             cin >> s >> d;
             a = (s + d) / 2;
             b = s - a;
-            if (b < 0) {
+            if ((s + d) % 2 != 0 || b < 0) {
                 cout << "impossible" << '\n';
             } else {
-                cout << a << " " << b << endl;
+                cout << max(a, b) << " " << min(a, b) << '\n';
             }
         }
     }

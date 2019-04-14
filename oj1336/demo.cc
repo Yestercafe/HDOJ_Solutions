@@ -6,7 +6,6 @@ int main()
     using namespace std;
     ios::sync_with_stdio(false);
 
-    
 
     string str;
     while (cin >> str) {

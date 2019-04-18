@@ -1,3 +1,4 @@
+// 英语直接劝退，题目基本看不懂。
 #include <iostream>
 
 int main()

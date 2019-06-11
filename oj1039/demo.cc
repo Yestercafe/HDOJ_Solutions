@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool isVowel(const char ch) {
+static bool isVowel(const char ch) {
     switch (ch) {
       case 'a': case 'e': case 'i': case 'o': case 'u':
         return true;
@@ -10,7 +10,7 @@ bool isVowel(const char ch) {
     }
 }
 
-bool isConsonant(const char ch) {
+static bool isConsonant(const char ch) {
     return !isVowel(ch);
 }
 

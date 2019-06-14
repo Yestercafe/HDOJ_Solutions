@@ -1,51 +1,54 @@
-#include <iostream>
-#include <vector>
-#include <tuple>
-#include <string>
-#include <algorithm>
-#include <iterator>
-const int BOUND = 200 * 5;
-
-int kagiri(const int n) {
-    if (n > BOUND)
-        return BOUND;
-    else
-        return n;
-}
+#include <bits/stdc++.h>
+using namespace std;
+using tsii = tuple<string, int, int>;
 
 int main()
 {
-    using namespace std;
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
+    
     int t;
     while (cin >> t) {
-        int n;
         while (t--) {
-            cin >> n;
-            vector<tuple<string, int, int>> milks;
-            while (n--) {
-                string name;
-                int price, volume;
-                cin >> name >> price >> volume;
-                if (volume < 200)
-                    continue;
-                milks.push_back(make_tuple(move(name), price, volume));
+            int n;
+            while (cin >> n) {
+                vector<tsii> vec;
+                while (n--) {
+                    string name;
+                    int price;
+                    int ml;
+                    cin >> name >> price >> ml;
+                    vec.push_back(make_tuple(name, price, ml));
+                }
+
+                sort(vec.begin(), vec.end(),
+                    [](const tsii &lhs, const tsii &rhs) {
+                        auto kagiri = [](int ml) -> int {
+                            if (ml > 1000) {
+                                ml = 1000;
+                            }
+                            ml = ml / 200 * 200;
+                            return ml;
+                        };
+                        
+                        int lAble = kagiri(get<2>(lhs));
+                        int rAble = kagiri(get<2>(rhs));
+                        double lRate = double(lAble) / get<1>(lhs);
+                        double rRate = double(rAble) / get<1>(rhs);
+
+                        if (lRate != rRate) {
+                            return lRate > rRate;
+                        } else {
+                            return get<2>(lhs) > get<2>(rhs);
+                        }
+                    });
+                
+                // for (const auto &t: vec) {
+                //     cout << get<0>(t) << " " << get<1>(t) << " " << get<2>(t) << endl;
+                // }
+
+                cout << get<0>(vec.front()) << endl;
             }
-
-            sort(begin(milks), end(milks),
-                [](const tuple<string, int, int> &lhs, const tuple<string, int, int> &rhs) -> bool {
-                    const int avga = kagiri(get<2>(lhs)) / get<1>(lhs),
-                          avgb = kagiri(get<2>(rhs)) / get<1>(rhs);
-                    if (avga != avgb) {
-                        return avga > avgb;
-                    } else {
-                        return get<2>(lhs) > get<2>(rhs);
-                    }
-                });
-
-            cout << get<0>(milks.front()) << endl;
         }
     }
 

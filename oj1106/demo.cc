@@ -1,39 +1,50 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
+using namespace std;
 
 int main()
 {
-    using namespace std;
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    // ios::sync_with_stdio(false);
+    // cin.tie(nullptr);
 
     string line;
-    vector<int> vec;
-    while (cin >> line) {
+    while (getline(cin, line)) {
+        vector<string> vec;
+        
         string one;
-        for (auto itr = line.begin(); itr != line.end(); ++itr) {
-            if (*itr == '5') {
+        string::size_type max_size = 0;
+        for (const auto &c: line) {
+            if (c == '5') {
                 if (!one.empty()) {
-                    int res = stoi(one);
-                    vec.push_back(move(res));
+                    if (one.size() > max_size) {
+                        max_size = one.size();
+                    }
+                    vec.push_back(one);
                     one.clear();
                 }
+                continue;
             } else {
-                one.push_back(*itr);
+                one.push_back(c);
             }
         }
         if (!one.empty()) {
-            int res = stoi(one);
-            vec.push_back(move(res));
+            if (one.size() > max_size) {
+                max_size = one.size();
+            }
+            vec.push_back(move(one));
         }
 
-        sort(vec.begin(), vec.end(), less<int>());
+        vector<int> ress;
+        for (const auto &s: vec) {
+            int num;
+            sscanf(s.c_str(), "%d", &num);
+            ress.push_back(move(num));
+        }
 
-        for (auto itr = vec.begin(); itr != vec.end(); ++itr) {
-            cout << *itr;
-            if (itr == vec.end() - 1) {
+        sort(ress.begin(), ress.end(), less<int>());
+
+        for (int i = 0; i < ress.size(); ++i) {
+            cout << ress.at(i);
+            if (i == ress.size() - 1) {
                 cout << '\n';
             } else {
                 cout << ' ';

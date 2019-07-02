@@ -49,11 +49,7 @@ string ppp(string lhs, string rhs)
             bit -= 10;
             isUpd = true;
         }
-        stringstream ss;
-        ss << bit;
-        char bitc;
-        ss >> bitc;
-        res.insert(0, 1, bitc);
+        res.insert(0, 1, bit + '0');
 
         if (lri != lhs.rend()) ++lri;
         if (rri != rhs.rend()) ++rri;

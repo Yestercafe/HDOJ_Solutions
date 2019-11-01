@@ -1,40 +1,44 @@
 #include <iostream>
-#include <vector>
 #include <set>
-#include <iterator>
-#include <algorithm>
-#include <cstdint>
-#define TIMES 5842
+#include <vector>
+#include <cstdio>
+
+#define MAX 2000000000
+
+using namespace std;
+
+static void generate(set<int>& humble, int src, int product) {
+    static const int primes[] = {2, 3, 5, 7};
+    humble.insert(src);
+    for (int i = 3; i >= 0; --i) {
+        if (primes[i] < product) break;
+        if (src <= MAX  / primes[i])
+            generate(humble, src * primes[i], primes[i]);
+    }
+}
 
 int main()
 {
-    using namespace std;
-    ios::sync_with_stdio(false);
+    set<int> humble;
+    generate(humble, 1, 2);
 
-    int times = 2;
-    set<int64_t> humble {1};
-    const int stdFact[] = {2, 3, 5, 7};
-    for (auto itr = humble.begin(); times <= TIMES; ++itr) {
-        for (const auto& c: stdFact) {
-            int64_t nextOne = *itr * c;
-            auto delta = distance(humble.begin(), itr);
-            auto ins = humble.insert(nextOne);
-            itr = next(humble.begin(), delta);
-            if (ins.second)
-                ++times;
-            if (times > TIMES)
-                goto end;
-        }
-    }
-    end:
-    // copy(begin(humble), end(humble), ostream_iterator<int>(cout, ", "));
-    // cout << endl;
-    cout << "here" << endl;
-
+    vector<int> humble_list(humble.begin(), humble.end());
     int n;
     while (cin >> n) {
+    // for (int n = 1; n <= 100; ++n) {
         if (n == 0) break;
-        cout << *next(humble.begin(), n - 1) << endl;
+
+        cout << "The " << n;    
+        if (n % 10 == 1 && n % 100 != 11) {
+            cout << "st";
+        } else if (n % 10 == 2 && n % 100 != 12) {
+            cout << "nd";
+        } else if (n % 10 == 3 && n % 100 != 13) {
+            cout << "rd";
+        } else {
+            cout << "th";
+        }
+        cout << " humble number is " << humble_list[n - 1] << ".\n" << flush;
     }
 
     return 0;
